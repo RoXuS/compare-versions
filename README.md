@@ -1,4 +1,4 @@
-![Tests](https://github.com/RoXuS/compare-versions/workflows/Deno/badge.svg)
+![Tests](https://github.com/RoXuS/compare_versions/workflows/Deno/badge.svg)
 
 # compare-versions
 

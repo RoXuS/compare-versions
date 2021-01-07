@@ -1,1 +1,1 @@
-export * as compareVersions from "./compare-versions.ts";
+export * from "./compare-versions.ts";

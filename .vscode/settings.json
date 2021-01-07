@@ -1,0 +1,24 @@
+{
+  "deno.enable": true,
+  "deno.lint": true,
+  "deno.import_map": "import_map.json",
+  "deno.import_intellisense_autodiscovery": true,
+  "deno.import_intellisense_origins": {
+    "https://deno.land": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "editor.formatOnSave": true,
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "dt-code-view": true
+  }
+}

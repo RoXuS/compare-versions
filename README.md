@@ -78,14 +78,3 @@ compareVersions.validate('1.0.0-rc.1'); // return true
 compareVersions.validate('1.0-rc.1'); // return false
 compareVersions.validate('foo'); // return false
 ```
-
-### Browser
-
-If included directly in the browser, `compareVersions()` is available on the global window:
-
-```html
-<script src="compare-versions/index.js"></script>
-<script>
-  window.compareVersions('10.0.0', '10.1.0');
-</script>
-```

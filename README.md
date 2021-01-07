@@ -1,4 +1,4 @@
-![Tests](https://github.com/RoXuS/compare_versions/workflows/Deno/badge.svg)
+![Tests](https://github.com/RoXuS/compare-versions/workflows/Deno/badge.svg)
 
 # compare-versions
 
@@ -18,7 +18,7 @@ This library supports the full semver specification, including comparing version
 ### Import
 
 ```javascript
-import { compareVersions } from "https://deno.land/x/compare-versions/mod.ts";
+import { compareVersions } from "https://deno.land/x/compare_versions/mod.ts";
 
 ```
 

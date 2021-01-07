@@ -3,23 +3,23 @@ export type CompareOperator = ">" | ">=" | "=" | "<" | "<=";
 const semver =
   /^v?(?:\d+)(\.(?:[x*]|\d+)(\.(?:[x*]|\d+)(\.(?:[x*]|\d+))?(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?)?)?$/i;
 
-function indexOrEnd(str: string, q: string) {
+const indexOrEnd = (str: string, q: string) => {
   return str.indexOf(q) === -1 ? str.length : str.indexOf(q);
-}
+};
 
-function split(v: string) {
+const split = (v: string) => {
   const c = v.replace(/^v/, "").replace(/\+.*$/, "");
   const patchIndex = indexOrEnd(c, "-");
   const arr = c.substring(0, patchIndex).split(".");
   arr.push(c.substring(patchIndex + 1));
   return arr;
-}
+};
 
-function tryParse(v: string) {
+const tryParse = (v: string) => {
   return isNaN(Number(v)) ? v : Number(v);
-}
+};
 
-function validate(version: string) {
+const validate = (version: string) => {
   if (typeof version !== "string") {
     throw new TypeError("Invalid argument expected string");
   }
@@ -28,9 +28,9 @@ function validate(version: string) {
       "Invalid argument not valid semver ('" + version + "' received)",
     );
   }
-}
+};
 
-export function compareVersions(v1: string, v2: string) {
+export const compareVersions = (v1: string, v2: string) => {
   [v1, v2].forEach(validate);
 
   const s1 = split(v1);
@@ -73,7 +73,7 @@ export function compareVersions(v1: string, v2: string) {
   }
 
   return 0;
-}
+};
 
 const allowedOperators = [
   ">",
@@ -91,7 +91,7 @@ const operatorResMap = {
   "<": [-1],
 };
 
-function validateOperator(op: string) {
+const validateOperator = (op: string) => {
   if (typeof op !== "string") {
     throw new TypeError(
       "Invalid operator type, expected string but got " + typeof op,
@@ -102,17 +102,17 @@ function validateOperator(op: string) {
       "Invalid operator, expected one of " + allowedOperators.join("|"),
     );
   }
-}
+};
 
-compareVersions.validate = function (version: string) {
+compareVersions.validate = (version: string) => {
   return typeof version === "string" && semver.test(version);
 };
 
-compareVersions.compare = function (
+compareVersions.compare = (
   v1: string,
   v2: string,
   operator: CompareOperator,
-) {
+) => {
   // Validate operator
   validateOperator(operator);
 

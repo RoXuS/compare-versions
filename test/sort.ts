@@ -1,6 +1,6 @@
 import { assertArrayIncludes } from "https://deno.land/std@0.83.0/testing/asserts.ts";
 
-import compare from "../compare-versions.ts";
+import { compareVersions } from "../compare-versions.ts";
 
 Deno.test("sort - should sort versions", () => {
   const versions = [
@@ -15,7 +15,7 @@ Deno.test("sort - should sort versions", () => {
     "11.3.0",
   ];
 
-  assertArrayIncludes(versions.sort(compare), [
+  assertArrayIncludes(versions.sort(compareVersions), [
     "1.2.3",
     "1.5.5",
     "1.5.19",
@@ -35,7 +35,7 @@ Deno.test("sort - should sort different digits", () => {
     "1.0.1",
   ];
 
-  assertArrayIncludes(versions.sort(compare), [
+  assertArrayIncludes(versions.sort(compareVersions), [
     "1.0",
     "1.0.0",
     "1.0.1",
@@ -50,7 +50,7 @@ Deno.test("sort - should sort pre-release", () => {
     "1.0.1-alpha",
   ];
 
-  assertArrayIncludes(versions.sort(compare), [
+  assertArrayIncludes(versions.sort(compareVersions), [
     "1.0.0",
     "1.0.1-alpha",
     "1.0.1-gamma",

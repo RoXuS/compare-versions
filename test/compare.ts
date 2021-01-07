@@ -3,7 +3,7 @@ import {
   assertStrictEquals,
   assertThrows,
 } from "https://deno.land/std@0.83.0/testing/asserts.ts";
-import compare, { CompareOperator } from "../compare-versions.ts";
+import { CompareOperator, compareVersions } from "../compare-versions.ts";
 
 const cmp = {
   "1": ">",
@@ -17,7 +17,7 @@ const runTests = (
 ) => {
   dataSet.forEach(([v1, v2, expected]) => {
     Deno.test(`compare - ${describe} ${v1} ${cmp[expected]} ${v2}`, () =>
-      assertEquals(compare(v1, v2), parseInt(expected, 10)));
+      assertEquals(compareVersions(v1, v2), parseInt(expected, 10)));
   });
 };
 
@@ -144,18 +144,18 @@ runTests("", [
 ]);
 
 Deno.test("compare - should compare versions with different number of digits in same group", () => {
-  assertEquals(compare("11.0.10", "11.0.2"), 1);
-  assertEquals(compare("11.0.2", "11.0.10"), -1);
+  assertEquals(compareVersions("11.0.10", "11.0.2"), 1);
+  assertEquals(compareVersions("11.0.2", "11.0.10"), -1);
 });
 
 Deno.test("compare - should compare versions with different number of digits in different groups", () => {
-  assertEquals(compare("11.1.10", "11.0"), 1);
+  assertEquals(compareVersions("11.1.10", "11.0"), 1);
 });
 
 Deno.test("compare - should compare versions with different number of digits", () => {
-  assertEquals(compare("1.1.1", "1"), 1);
-  assertEquals(compare("1.0.0", "1"), 0);
-  assertEquals(compare("1.0", "1.4.1"), -1);
+  assertEquals(compareVersions("1.1.1", "1"), 1);
+  assertEquals(compareVersions("1.0.0", "1"), 0);
+  assertEquals(compareVersions("1.0", "1.4.1"), -1);
 });
 
 [
@@ -171,7 +171,7 @@ Deno.test("compare - should compare versions with different number of digits", (
     assertThrows(
       () => {
         const v1Typed = v1 as unknown as string;
-        compare(v1Typed, v1Typed);
+        compareVersions(v1Typed, v1Typed);
       },
       Error,
       exception as unknown as string,
@@ -182,42 +182,46 @@ Deno.test("compare - should compare versions with different number of digits", (
 Deno.test("compare - should throw if the operator is not a string", () => {
   assertThrows(
     () => {
-      compare.compare("3.2.1", "3.2.0", null as unknown as ">");
+      compareVersions.compare("3.2.1", "3.2.0", null as unknown as ">");
     },
     Error,
     "Invalid operator type, expected string but got",
   );
   assertThrows(
     () => {
-      compare.compare("3.2.1", "3.2.0", undefined as unknown as ">");
+      compareVersions.compare("3.2.1", "3.2.0", undefined as unknown as ">");
     },
     Error,
     "Invalid operator type, expected string but got ",
   );
   assertThrows(
     () => {
-      compare.compare("3.2.1", "3.2.0", true as unknown as ">");
+      compareVersions.compare("3.2.1", "3.2.0", true as unknown as ">");
     },
     Error,
     "Invalid operator type, expected string but got boolean",
   );
   assertThrows(
     () => {
-      compare.compare("3.2.1", "3.2.0", 1 as unknown as ">");
+      compareVersions.compare("3.2.1", "3.2.0", 1 as unknown as ">");
     },
     Error,
     "Invalid operator type, expected string but got number",
   );
   assertThrows(
     () => {
-      compare.compare("3.2.1", "3.2.0", { foo: "bar" } as unknown as ">");
+      compareVersions.compare(
+        "3.2.1",
+        "3.2.0",
+        { foo: "bar" } as unknown as ">",
+      );
     },
     Error,
     "Invalid operator type, expected string but got object",
   );
   assertThrows(
     () => {
-      compare.compare("3.2.1", "3.2.0", (() => {}) as unknown as ">");
+      compareVersions.compare("3.2.1", "3.2.0", (() => {}) as unknown as ">");
     },
     Error,
     "Invalid operator type, expected string but got function",
@@ -227,21 +231,21 @@ Deno.test("compare - should throw if the operator is not a string", () => {
 Deno.test("compare - should throw if the operator is not in the allowed operators", () => {
   assertThrows(
     () => {
-      compare.compare("3.2.1", "3.2.0", "" as unknown as ">");
+      compareVersions.compare("3.2.1", "3.2.0", "" as unknown as ">");
     },
     Error,
     "Invalid operator, expected one of ",
   );
   assertThrows(
     () => {
-      compare.compare("3.2.1", "3.2.0", "foo" as unknown as ">");
+      compareVersions.compare("3.2.1", "3.2.0", "foo" as unknown as ">");
     },
     Error,
     "Invalid operator, expected one of ",
   );
   assertThrows(
     () => {
-      compare.compare("3.2.1", "3.2.0", "> " as unknown as ">");
+      compareVersions.compare("3.2.1", "3.2.0", "> " as unknown as ">");
     },
     Error,
     "Invalid operator, expected one of ",
@@ -261,7 +265,7 @@ Deno.test("compare - should throw the same Errors thrown by the main function", 
     assertThrows(
       () => {
         const v1Typed = v1 as unknown as string;
-        compare.compare(v1Typed, v1Typed, ">");
+        compareVersions.compare(v1Typed, v1Typed, ">");
       },
       Error,
       exception as unknown as string,
@@ -285,7 +289,7 @@ Deno.test("compare - should return the expected results when everything is ok", 
     { first: "10.1.1", second: "10.2.2", operator: ">=", expected: false },
   ].forEach((testCtx) => {
     assertStrictEquals(
-      compare.compare(
+      compareVersions.compare(
         testCtx.first,
         testCtx.second,
         testCtx.operator as CompareOperator,

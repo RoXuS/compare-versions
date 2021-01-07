@@ -1,3 +1,5 @@
+![Tests](https://github.com/RoXuS/compare-versions/workflows/Deno/badge.svg)
+
 # compare-versions
 
 ## Deno fork of https://github.com/omichelsen/compare-versions

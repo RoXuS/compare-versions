@@ -30,7 +30,7 @@ function validate(version: string) {
   }
 }
 
-export default function compareVersions(v1: string, v2: string) {
+export function compareVersions(v1: string, v2: string) {
   [v1, v2].forEach(validate);
 
   const s1 = split(v1);
